@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: black;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#signature-list {
+    text-align: center;
+}
+
+#signature-list > img {
+    width: 1000px;
+    height: 350px;
+    margin: 10px;
+}
