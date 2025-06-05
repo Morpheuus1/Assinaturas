@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Assinaturas</title>
+  <meta charset="UTF-8">
+  <title>Assinaturas</title>
+  <style>
+    #galeria {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #galeria img {
+      width: 200px;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-<h1>Assinaturas</h1>
-<div id="signature-list">
-    func
-</div>
+  <h1>Minha Galeria</h1>
+  <div id="galeria"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById("galeria");
+
+      // Substitua 'SEU_USERNAME' e 'SEU_REPO' pelos valores correspondentes do seu repositório
+      const apiUrl = 'https://api.github.com/repos/SEU_USERNAME/SEU_REPO/contents/image';
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao acessar a API do GitHub: ' + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // data é um array de objetos com informações sobre os arquivos
+          data.forEach(arquivo => {
+            // Verifica se é um arquivo e se tem extensão de imagem
+            if (arquivo.type === "file" && /\.(jpg|jpeg|png|gif)$/i.test(arquivo.name)) {
+              const img = document.createElement("img");
+              img.src = arquivo.download_url; // URL para download direto do arquivo
+              img.alt = arquivo.name;
+              container.appendChild(img);
+            }
+          });
+        })
+        .catch(error => console.error("Erro ao buscar os arquivos:", error));
+    });
+  </script>
 </body>
 </html>
